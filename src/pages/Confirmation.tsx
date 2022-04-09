@@ -3,18 +3,14 @@ import {
     Text,
     SafeAreaView,
     StyleSheet,
-    Image,
-    TouchableOpacity,
-    Dimensions,
-    View
+    View,
+    Keyboard
 } from 'react-native';
-import { Feather } from '@expo/vector-icons';
-
-import Watering from '../assets/watering.png';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
 import Button from '../components/Button';
+
 
 export default function Confirmation() {
     return (
@@ -37,7 +33,6 @@ export default function Confirmation() {
                     <Button title='Continuar'/>
                 </View>
             </View>
-
         </SafeAreaView>
     );
 }
