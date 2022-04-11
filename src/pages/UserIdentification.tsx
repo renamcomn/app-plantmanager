@@ -10,6 +10,7 @@ import {
     Keyboard,
     TouchableWithoutFeedback
 } from 'react-native';
+import { useNavigation } from '@react-navigation/core';
 
 import Button from '../components/Button';
 import colors from '../styles/colors';
@@ -19,6 +20,8 @@ export default function UserIdentification() {
     const [isFocused, setIsFocused] = useState(false);
     const [isFilled, setIsFilled] = useState(false);
     const [name, setName] = useState<string>();
+
+    const navigation = useNavigation();
 
     function handleInputBlur() {
         setIsFocused(false);
@@ -32,6 +35,10 @@ export default function UserIdentification() {
     function handleInputChange(value: string) {
         setIsFilled(!!value);
         setName(value)
+    }
+
+    function handleConfirmation() {
+        navigation.navigate('Confirmation');
     }
     return (
         <SafeAreaView style={styles.container}>
@@ -69,7 +76,9 @@ export default function UserIdentification() {
                             />
                             
                             <View style={styles.footer}>
-                                <Button title='Confirmar'/>
+                                <Button title='Confirmar'
+                                    onPress={handleConfirmation}
+                                />
                             </View>
 
                         </View>
