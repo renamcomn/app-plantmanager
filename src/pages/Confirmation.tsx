@@ -3,16 +3,21 @@ import {
     Text,
     SafeAreaView,
     StyleSheet,
-    View,
-    Keyboard
+    View
 } from 'react-native';
+import { useNavigation } from '@react-navigation/core';
+
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
-
 import Button from '../components/Button';
 
-
 export default function Confirmation() {
+    const navigation = useNavigation();
+
+    function handlePlantSelect() {
+        navigation.navigate('PlantSelect');
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.content}>
@@ -30,7 +35,9 @@ export default function Confirmation() {
                 </Text>
 
                 <View style={styles.footer}>
-                    <Button title='Continuar'/>
+                    <Button title='Continuar'
+                        onPress={handlePlantSelect}
+                    />
                 </View>
             </View>
         </SafeAreaView>
