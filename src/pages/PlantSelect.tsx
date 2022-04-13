@@ -15,6 +15,7 @@ import fonts from '../styles/fonts';
 import { Header } from '../components/Header';
 import { EnviromentButton } from '../components/EnviromentButton';
 import { PlantCardPrimary } from '../components/PlantCardPrimary';
+import Loading from '../components/Loading';
 
 interface EnviromentProps {
     key: string;
@@ -39,11 +40,12 @@ export function PlantSelect() {
     const [plants, setPlants] = useState<PlantsProps[]>([]);
     const [filteredPlants, setFilteredPlants] = useState<PlantsProps[]>([]);
     const [enviromentSelected, setEnviromentSelected] = useState('all');
+    const [loading, setLoading] = useState(true);
 
     function handleEnviromentSelected(enviroment: string) {
         setEnviromentSelected(enviroment);
 
-        if(enviroment === 'all')
+        if(enviroment == 'all')
         return setFilteredPlants(plants);
 
         const filtered = plants.filter(plant => 
@@ -51,6 +53,13 @@ export function PlantSelect() {
         );
 
         setFilteredPlants(filtered);
+    }
+
+    async function fetchPlants(){
+        const { data } = await api.get(`plants?_sort=name&_order=asc`);
+        setPlants(data);
+        setFilteredPlants(data);
+        setLoading(false);
     }
 
     useEffect(() => {
@@ -77,6 +86,13 @@ export function PlantSelect() {
         fetchPlants();
     }, []);
 
+    useEffect(() => {        
+        fetchPlants();
+    },[])
+
+    if(loading)
+        return <Loading />
+        
     return(
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
