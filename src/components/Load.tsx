@@ -1,14 +1,14 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 
-import LoadFile from '../assets/loading.json';
+import loadAnimation from '../assets/load.json';
 
-export default function Loading(){
+export function Load(){
     return (
         <View style={styles.container}>
             <LottieView
-                source={LoadFile}
+                source={loadAnimation}
                 autoPlay
                 loop
                 style={styles.animation}
