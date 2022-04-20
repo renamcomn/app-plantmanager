@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     View,
     StyleSheet,
@@ -9,12 +9,25 @@ import colors from '../styles/colors';
 import userImg from '../assets/renan.png';
 import fonts from '../styles/fonts';
 
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
 export function Header() {
+    const [username, setUserName] = useState<string>();
+
+    useEffect(() => {
+        async function loadStorageName() {
+            const user = await AsyncStorage.getItem('@plantmanager:user');
+            setUserName(user || '');
+        }
+
+        loadStorageName();
+        
+    }, [])
     return(
         <View style={styles.container}>
             <View>
                 <Text style={styles.greetings}>Olá,</Text>
-                <Text style={styles.username}>Renan</Text>
+                <Text style={styles.username}>{username}</Text>
             </View>
             
             <Image source={userImg} style={styles.avatar} />
