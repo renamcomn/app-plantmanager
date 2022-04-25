@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     View,
     Text,
@@ -8,16 +8,41 @@ import {
 } from 'react-native'
 
 import { Header } from "../components/Header";
+import { loadPlants, PlantsProps } from "../libs/storage";
 
 import colors from "../styles/colors";
 import fonts from "../styles/fonts";
 
 import waterdrop from '../assets/waterdrop.png';
+import { formatDistance } from "date-fns";
+import { pt } from "date-fns/locale";
+import { PlantCardSecondary } from "../components/PlantCardSecondary";
 
 export function MyPlants() {
-    // const [myPlants, setMyPlants] = useState<PlantProps[]>([]);
+    const [myPlants, setMyPlants] = useState<PlantsProps[]>([]);
     const [loading, setLoading] = useState(true);  
-    const [nextWaterd, setNextWatered] = useState<string>();
+    const [nextWatered, setNextWatered] = useState<string>();
+
+    useEffect(() => {
+        async function loadStorageData() {
+            const plantsStorage = await loadPlants();
+
+            const nextTime = formatDistance(
+                new Date(plantsStorage[0].dateTimeNotification).getTime(),
+                new Date().getTime(),
+                { locale: pt }
+            );
+
+            setNextWatered(
+                `Não esqueça de regar a ${plantsStorage[0].name} à ${nextTime}`
+            )
+
+            setMyPlants(plantsStorage)
+            setLoading(false);
+        }
+
+        loadStorageData();
+    }, []);
     return (
         <View style={styles.container}>
             <Header/>
@@ -28,7 +53,7 @@ export function MyPlants() {
                     style={styles.spotlightImage}
                 />
                 <Text style={styles.spotlightText}>
-                    {nextWaterd}
+                    {nextWatered}
                 </Text>
             </View>
 
@@ -37,17 +62,17 @@ export function MyPlants() {
                     Próximas regadas
                 </Text>
 
-                {/* <FlatList 
+                <FlatList 
                     data={myPlants}
                     keyExtractor={(item) => String(item.id)}
                     renderItem={({ item }) => (
                        <PlantCardSecondary 
                             data={item} 
-                            handleRemove={() => {handleRemove(item)}}
+                            handleRemove={() => {}}
                         />
                     )}
                     showsVerticalScrollIndicator={false}
-                /> */}
+                />
             </View>
         </View>
     )
