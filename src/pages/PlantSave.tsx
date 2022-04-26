@@ -5,7 +5,8 @@ import {
     Image,
     StyleSheet,
     Platform,
-    Alert
+    Alert,
+    ScrollView
 } from 'react-native';
 import { useNavigation, useRoute } from "@react-navigation/core";
 import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
@@ -70,7 +71,11 @@ export function PlantSave() {
     }
 
     return(
-        <View style={styles.container}>
+        <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.container}
+        >
+            <View style={styles.container}>
                 <View style={styles.plantInfo}>
                     <SvgFromUri
                         uri={plant.photo}
@@ -132,6 +137,7 @@ export function PlantSave() {
                     />
                 </View>
             </View>
+        </ScrollView>
     );
 }
 

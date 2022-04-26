@@ -17,6 +17,7 @@ import waterdrop from '../assets/waterdrop.png';
 import { formatDistance } from "date-fns";
 import { pt } from "date-fns/locale";
 import { PlantCardSecondary } from "../components/PlantCardSecondary";
+import { Load } from "../components/Load";
 
 export function MyPlants() {
     const [myPlants, setMyPlants] = useState<PlantsProps[]>([]);
@@ -34,7 +35,7 @@ export function MyPlants() {
             );
 
             setNextWatered(
-                `Não esqueça de regar a ${plantsStorage[0].name} à ${nextTime}`
+                `Não esqueça de regar a ${plantsStorage[0].name} em ${nextTime}`
             )
 
             setMyPlants(plantsStorage)
@@ -43,6 +44,10 @@ export function MyPlants() {
 
         loadStorageData();
     }, []);
+
+    if(loading)
+        return <Load />
+
     return (
         <View style={styles.container}>
             <Header/>
