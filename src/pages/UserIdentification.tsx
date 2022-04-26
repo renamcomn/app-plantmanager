@@ -48,7 +48,7 @@ export default function UserIdentification() {
             navigation.navigate('Confirmation', {
                 title: 'Prontinho',
                 subTitle: 'Agora vamos começar a cuidar das suas plantinhas com muito cuidado',
-                buttoTitle: 'Começar',
+                buttonTitle: 'Começar',
                 icon: 'smile',
                 nextScreen: 'PlantSelect'
             });

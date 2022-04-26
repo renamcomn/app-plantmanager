@@ -58,7 +58,7 @@ export const PlantCardSecondary = ({ data, handleRemove, ...rest} : PlantProps) 
                         Regar às
                     </Text>
                     <Text style={styles.time}>
-                        {data.hour}
+                       {data.hour}
                     </Text>
                 
                 </View>

@@ -60,7 +60,7 @@ export function PlantSave() {
             navigation.navigate('Confirmation', {
                 title: 'Tudo certo',
                 subTitle: 'Fique tranquilo que sempre vamos lembrar você de cuidar da sua plantinha com muito cuidado.',
-                buttoTitle: 'Muito Obrigado :D',
+                buttonTitle: 'Muito Obrigado :D',
                 icon: 'hug',
                 nextScreen: 'MyPlants'
             });

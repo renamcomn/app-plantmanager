@@ -56,7 +56,7 @@ export default function Confirmation() {
                 </Text>
 
                 <View style={styles.footer}>
-                    <Button title='Continuar'
+                    <Button title={buttonTitle}
                         onPress={handlePlantSelect}
                     />
                 </View>
