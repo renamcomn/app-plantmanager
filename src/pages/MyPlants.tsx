@@ -7,9 +7,9 @@ import {
     FlatList,
     Alert
 } from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { Header } from "../components/Header";
-import { loadPlants, PlantsProps, StoragePlantProps } from "../libs/storage";
+import { loadPlants, PlantsProps, removePlant } from "../libs/storage";
 
 import colors from "../styles/colors";
 import fonts from "../styles/fonts";
@@ -35,15 +35,7 @@ export function MyPlants() {
                 text: 'Sim 🥲',
                 onPress: async () => {
                     try {
-                        const data = await AsyncStorage.getItem('@plantmanager:plants');
-                        const plants = data ? (JSON.parse(data) as StoragePlantProps) : {};
-
-                        delete plants[plant.id];
-                        await AsyncStorage.setItem(
-                            '@plantmanager:plants',
-                            JSON.stringify(plants)
-                        );
-
+                        await removePlant(plant.id);
                         setMyPlants((oldData) =>
                             oldData.filter((item) => item.id !== plant.id)
                         );
