@@ -4,11 +4,12 @@ import {
     Text,
     Image,
     StyleSheet,
-    FlatList
+    FlatList,
+    Alert
 } from 'react-native'
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Header } from "../components/Header";
-import { loadPlants, PlantsProps } from "../libs/storage";
+import { loadPlants, PlantsProps, StoragePlantProps } from "../libs/storage";
 
 import colors from "../styles/colors";
 import fonts from "../styles/fonts";
@@ -23,6 +24,38 @@ export function MyPlants() {
     const [myPlants, setMyPlants] = useState<PlantsProps[]>([]);
     const [loading, setLoading] = useState(true);  
     const [nextWatered, setNextWatered] = useState<string>();
+
+    function handleRemove(plant: PlantsProps) {
+        Alert.alert('Remover', `Deseja remover a ${plant.name}?`, [
+            {
+                text: 'Não 🙏',
+                style: 'cancel'
+            },
+            {
+                text: 'Sim 🥲',
+                onPress: async () => {
+                    try {
+                        const data = await AsyncStorage.getItem('@plantmanager:plants');
+                        const plants = data ? (JSON.parse(data) as StoragePlantProps) : {};
+
+                        delete plants[plant.id];
+                        await AsyncStorage.setItem(
+                            '@plantmanager:plants',
+                            JSON.stringify(plants)
+                        );
+
+                        setMyPlants((oldData) =>
+                            oldData.filter((item) => item.id !== plant.id)
+                        );
+                    } catch(error) {
+                        Alert.alert('Não foi possivel remover 🥲');
+                    }
+                }
+            }
+            
+
+        ])
+    }
 
     useEffect(() => {
         async function loadStorageData() {
@@ -73,7 +106,7 @@ export function MyPlants() {
                     renderItem={({ item }) => (
                        <PlantCardSecondary 
                             data={item} 
-                            handleRemove={() => {}}
+                            handleRemove={() => {handleRemove(item)}}
                         />
                     )}
                     showsVerticalScrollIndicator={false}
